@@ -1,0 +1,34 @@
+# Configuration for Hydra
+hydra:
+  run:
+    dir: /tmp/hydra
+  job:
+    chdir: false
+
+defaults:
+  - plm_mlp_base_config
+  - _self_
+
+data_config: 
+  _target_: adk_dl.data.PLMEmbeddingRegressionDataModule
+  train_config: ${train_config}
+  model_name: "ankh-large"
+  aggregation: "mean"
+  
+train_config:
+  gpu_num: 0
+  max_epochs: 3000
+
+lr_config:
+  final_value: 1e-7
+  warmup_initial_value: 1e-6
+  base_value: 1e-5
+
+encoder_config:
+  input_dim: 1536
+
+wandb_config:
+  run_name: ankh_large-mean_mlp_low_lr
+
+
+  

@@ -169,3 +169,22 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+__pycache__/
+
+*.pyc
+.idea/
+*.pdf
+.DS_Store
+wandb/
+*wandb
+.nfs*
+*.out
+*.fasta
+*.csv
+*lock.*
+*lightning_logs*
+data/
+artifacts/
+*.pkl
+*.json

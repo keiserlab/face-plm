@@ -1,0 +1,3 @@
+_target_: adk_dl.data.PLMSeq2RegressionDataModule
+train_config: ${train_config}
+model_name: ElnaggarLab/ankh-base

@@ -1,0 +1,56 @@
+# Configuration for Hydra
+hydra:
+  run:
+    dir: /tmp/hydra
+  job:
+    chdir: false
+
+defaults:
+  - data_config: ankh_base_kcat
+  - _self_
+
+train_config:
+  _target_: adk_dl.utils.TrainConfig
+  batch_size: 8
+  learning_rate: ${lr_config.base_value}
+  max_epoch_number: 1000
+  warmup_epochs: 50
+  profiler: simple
+  num_workers: 0
+  gpu_num: 3
+
+lr_config:
+  _target_: adk_dl.utils.HyperParameterScheduler
+  train_config: ${train_config}
+  final_value: 1e-7
+  warmup_initial_value: 1e-6
+  base_value: 1e-5
+  warmup_epochs: ${train_config.warmup_epochs}
+  
+wandb_config:
+  _target_: adk_dl.utils.WandbRunConfig
+  project: adk_deep_learning
+  entity: kampmann_lab
+  run_name: lora_ft_ankhbase_dropout70_kcat
+
+taskhead_config:
+  _target_: adk_dl.models.RegressionHead
+  input_dim: 768
+
+loss_config:
+  _target_: torch.nn.MSELoss
+
+encoder_config:
+  _target_: adk_dl.models.LoRAFinetunePLMEncoder
+  model_name: ElnaggarLab/ankh-base
+  num_tokens: None
+  lora_dropout: 0.70
+
+model_config:
+  _target_: adk_dl.models.LightningModel
+  optimizer:  "Adam"
+  wd: 0.00
+  lr_scheduler: ${lr_config}
+  encoder: ${encoder_config}
+  task_head: ${taskhead_config}
+  loss_func: ${loss_config}
