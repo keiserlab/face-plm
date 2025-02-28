@@ -1,0 +1,33 @@
+# Configuration for Hydra
+hydra:
+  run:
+    dir: /tmp/hydra
+  job:
+    chdir: false
+
+defaults:
+  - data_config: ec27
+  - model_config: ankh_lora_ft
+  - _self_
+
+train_config:
+  _target_: adk_dl.utils.TrainConfig
+  batch_size: 3
+  learning_rate: ${lr_config.base_value}
+  max_epoch_number: 1
+  warmup_epochs: 1
+  profiler: simple
+  gpu_num: 3
+
+lr_config:
+  _target_: adk_dl.utils.HyperParameterScheduler
+  train_config: ${train_config}
+  base_value: 1e-3
+  final_value: 1e-6
+  warmup_initial_value: 1e-6
+  warmup_epochs: ${train_config.warmup_epochs}
+  
+wandb_config:
+  _target_: adk_dl.utils.WandbRunConfig
+  project: adk_deep_learning
+  run_name: lora_ft_ankhlarge_ec27

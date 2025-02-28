@@ -1,0 +1,5 @@
+_target_: adk_dl.fine_tune.models.ankh_finetune.AnkhLoRAFineTune
+lr_scheduler: ${lr_config}
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.1

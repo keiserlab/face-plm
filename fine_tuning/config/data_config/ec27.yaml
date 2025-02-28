@@ -1,0 +1,4 @@
+_target_: adk_dl.fine_tune.data.AnkhFineTuneDataModule
+train_config: ${train_config}
+max_length: 512
+mask_ratio: 0.1
