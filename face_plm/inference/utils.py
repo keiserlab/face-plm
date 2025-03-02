@@ -7,6 +7,7 @@ def load_latest_model_artifact(project_name,
                                wandb_uid,
                                model_type,
                                artifact_type="model",
+                               save_dir="./"
                                ):
     """
     Load the latest version of a model artifact from WandB.
@@ -21,6 +22,8 @@ def load_latest_model_artifact(project_name,
         The unique identifier of the model artifact.
     artifact_type : str, optional
         The type of the artifact to load, by default "model".
+    save_dir: str, optional
+        The directory where the model will be saved, by default "/"
     
     Returns
     -------
@@ -36,7 +39,9 @@ def load_latest_model_artifact(project_name,
     # Load the latest artifact
     artifact = api.artifact(artifact_path, type=artifact_type)
     # Download and get the directory where the model is saved
-    artifact_dir = artifact.download()
+    if save_dir.endswith("/"):
+        save_dir = save_dir[:-1]
+    artifact_dir = artifact.download(root=f"{save_dir}/wandb_artifacts/{model_name}_{model_type}")
     # Assuming your model file is named "model.ckpt" in the artifact
     model_file_path = f"{artifact_dir}/model.ckpt"
     checkpoint = torch.load(model_file_path, map_location="cpu")
@@ -50,7 +55,8 @@ def load_latest_model_artifact(project_name,
 def load_model_from_wandb_for_inference(config,
                                         wandb_entity,
                                         wandb_uid,
-                                        model_type="latest"):
+                                        model_type="latest",
+                                        save_dir="./"):
     """
     This function loads a model from WandB for inference.
 
@@ -72,7 +78,8 @@ def load_model_from_wandb_for_inference(config,
     state_dict = load_latest_model_artifact(config.wandb_config.project,
                                             wandb_entity,
                                             wandb_uid, 
-                                            model_type)
+                                            model_type,
+                                            save_dir=save_dir)
     model.load_state_dict(state_dict)
     model.eval()
     return model

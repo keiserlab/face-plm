@@ -10,7 +10,7 @@ import hydra
 import tempfile
 import wandb
 
-from adk_dl.utils import clean_hydra_config_for_wandb
+from face_plm.probes.utils import clean_hydra_config_for_wandb
 from transformers import AutoTokenizer
 
 

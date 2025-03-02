@@ -7,6 +7,7 @@ hydra:
 
 defaults:
   - data_config: ankh_base_kcat
+  - wandb_config: base_wandb
   - _self_
 
 train_config:
@@ -28,9 +29,6 @@ lr_config:
   warmup_epochs: ${train_config.warmup_epochs}
   
 wandb_config:
-  _target_: face_plm.probes.utils.WandbRunConfig
-  project: temp_project_name  # CHANGEME
-  entity: temp_entity_name  # CHANGEME
   run_name: lora_ft_ankhbase_dropout70_kcat
 
 taskhead_config:

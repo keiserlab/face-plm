@@ -1,5 +1,5 @@
 import hydra
-from adk_dl.inference.utils import load_model_from_wandb_for_inference
+from face_plm.inference.utils import load_model_from_wandb_for_inference
 import torch
 import numpy as np
 from scipy.stats import spearmanr, pearsonr

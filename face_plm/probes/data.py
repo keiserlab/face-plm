@@ -3,7 +3,7 @@ from torch.utils.data import Dataset
 import torch
 import pandas as pd
 import numpy as np 
-from adk_dl.utils import TrainConfig
+from face_plm.probes.utils import TrainConfig
 from torch.utils.data import DataLoader
 import pytorch_lightning as pl
 import json

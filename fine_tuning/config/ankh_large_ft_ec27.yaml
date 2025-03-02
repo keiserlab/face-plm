@@ -7,6 +7,7 @@ hydra:
 
 defaults:
   - data_config: ec27
+  - wandb_config: base_wandb
   - model_config: ankh_lora_ft
   - _self_
 
@@ -28,6 +29,4 @@ lr_config:
   warmup_epochs: ${train_config.warmup_epochs}
   
 wandb_config:
-  _target_: face_plm.probes.utils.WandbRunConfig
-  project: temp_project_name  # CHANGEME
   run_name: lora_ft_ankhlarge_ec27

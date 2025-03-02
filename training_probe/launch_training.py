@@ -66,7 +66,6 @@ def main():
     else:
         gpu_num = [train_config.gpu_num]
 
-    
     callbacks = [pl.callbacks.EarlyStopping(monitor='val_loss',
                                         patience=train_config.patience,
                                         verbose=False,
@@ -90,6 +89,5 @@ def main():
     wandb.config.update(dict(config))
 
 
-    
 if __name__ == "__main__":
     main()

@@ -1,0 +1,5 @@
+wandb_config:
+  _target_: face_plm.probes.utils.WandbRunConfig
+  project: temp_project_name  # CHANGEME
+  entity: temp_entity_name  # CHANGEME
+  run_name: base

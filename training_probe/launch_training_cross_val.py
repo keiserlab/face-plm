@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 
 import pytorch_lightning as pl
-from pytorch_lightning.callbacks import Callback
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 import torch
