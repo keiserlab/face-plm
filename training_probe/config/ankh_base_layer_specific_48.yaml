@@ -1,0 +1,28 @@
+# Configuration for Hydra
+hydra:
+  run:
+    dir: /tmp/hydra
+  job:
+    chdir: false
+
+defaults:
+  - vit_tiny_base_config
+  - wandb_config: base_wandb
+  - _self_
+  
+data_config: 
+  _target_: face_plm.probes.AnkhLayerSpecificRegressionDataModule
+  train_config: ${train_config}
+  
+train_config:
+  gpu_num: 0
+  max_epoch_number: 200
+
+encoder_config:
+  input_dim: 768
+ 
+wandb_config:
+  run_name: ankh-base-vit-tiny
+
+min_layer: 48
+max_layer: 48

@@ -1,0 +1,3 @@
+wandb_config:
+  run_name: base_run_name
+  entity: temp_entitiy  # CHANGEME

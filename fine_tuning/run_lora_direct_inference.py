@@ -1,17 +1,15 @@
-import os
 import hydra
-import pytorch_lightning as pl
 from adk_dl.inference.utils import load_model_from_wandb_for_inference
 import torch
 import numpy as np
 from scipy.stats import spearmanr, pearsonr
 from sklearn.metrics import root_mean_squared_error, r2_score
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 import wandb
 import regex as re
 from transformers import AutoTokenizer
+from argparse import ArgumentParser
+
 
 def run_regression_inference_lora(artifact_id: dict,
                             config_name: str, 
@@ -24,23 +22,19 @@ def run_regression_inference_lora(artifact_id: dict,
     with hydra.initialize(version_base=None, config_path=str(config_path)):
         config = hydra.compose(config_name=config_name)
 
-    train_config = config.train_config
     model_config = config.model_config
-    wandb_config = config.wandb_config
     data_config = config.data_config
     
     tokenizer = AutoTokenizer.from_pretrained(data_config.model_name)
     tokenizer.add_special_tokens({'cls_token': '[CLS]'}) # Add the cls token to the tokenizer
     num_tokens = len(tokenizer)
     model_config.encoder.num_tokens = num_tokens
-
     model = load_model_from_wandb_for_inference(config=config,
                                             wandb_entity= "kampmann_lab",
                                             wandb_uid=artifact_id,
                                             model_type="best")
 
     data_module = hydra.utils.instantiate(data_config, split_num=split_num, tokenizer=tokenizer)
-    #, aggregation=agg)
 
     train_preds = []
     train_labels = []
@@ -82,19 +76,22 @@ def run_regression_inference_lora(artifact_id: dict,
     val_pearson = pearsonr(np.squeeze(val_preds), val_labels)[0].item()
     return train_spearman, val_spearman, train_rmse, val_rmse, train_r2, val_r2, train_pearson, val_pearson
 
+
 def main():
+    # setting up argparser
+    parser = ArgumentParser()
+    parser.add_argument("--wandb_project", type=str)
+    parser.add_argument("--output_dir", type=str)
+    args = parser.parse_args()
 
     api = wandb.Api()
-
     filter_expression = re.compile(".*kcat_f.*")
-    runs = api.runs("kampmann_lab/adk_deep_learning")
+    runs = api.runs(args.wandb_project)
     artifact_rows = []
     for run in runs: 
         if (filter_expression.search(run.name) 
             and run.state == "finished" 
-            #and run.config["data"]["target"] == "adk_dl.data.PLMEmbeddingRegressionDataModule"
         ):
-            
             artifact_dict = {"name": run.name,
                 "id": run.id, 
                 "split_num": run.config["data"]["fold_num"],
@@ -143,7 +140,11 @@ def main():
                         "pearson": val_pearson,
                         "dropout": row["lora_dropout"]})
     results_df = pd.DataFrame(rows)
-    results_df.to_csv("/srv/home/dmuir/code/adk-deep-learning/data/lora_direct_ft_kcat_dropout.csv", index=False)
+    if args.output_dir.enswith("/"):
+        results_df.to_csv(f"{args.output_dir}lora_direct_ft_kcat_dropout.csv", index=False)
+    else:
+        results_df.to_csv(f"{args.output_dir}/lora_direct_ft_kcat_dropout.csv", index=False)
+
 
 if __name__ == "__main__":
     main()

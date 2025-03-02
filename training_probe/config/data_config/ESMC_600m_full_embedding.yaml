@@ -1,0 +1,3 @@
+_target_: face_plm.probes.data.PLMEmbeddingRegressionDataModule
+train_config: ${train_config}
+model_name: "esmc_600m"

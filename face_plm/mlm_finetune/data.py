@@ -1,16 +1,24 @@
 from torch.utils.data import Dataset
 from transformers import AutoTokenizer
-from adk_dl.data import generate_dataloader
-from adk_dl.utils import TrainConfig
+from face_plm.probes.data import generate_dataloader
+from face_plm.probes.utils import TrainConfig
 import pandas as pd
 import numpy as np
 import torch
 import pytorch_lightning as pl
+from pathlib import Path
 
-# Constants
-EC27_DATA = "/srv/ds/set-1/group/duncan_parker/ec27_dataset/uniprotkb_ec_2_7_2025_01_05_org_filtered.tsv"
-ADK_DATA = "/srv/ds/set-1/group/duncan_parker/adk_dataset/uniprot_adk.txt"
-ADK_DATA_SUBSET = "/srv/ds/set-1/group/duncan_parker/adk_dataset/uniprot_adk_subset.csv"
+
+# Getting path of this file
+file_path = Path(__file__).resolve()
+# Getting the parent directory of this file
+parent_dir = file_path.parent
+# defining the data directory
+data_dir = str(parent_dir) + "/../../data/"
+EC27_DATA = f"{data_dir}uniprotkb_ec_2_7_2025_01_05_org_filtered.tsv"
+ADK_DATA = f"{data_dir}uniprot_adk.txt"
+ADK_DATA_SUBSET = f"{data_dir}uniprot_adk_subset.csv"
+
 
 class AnkhEC27MLMDataset(Dataset):
     def __init__(self,

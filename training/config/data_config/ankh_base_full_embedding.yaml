@@ -1,3 +1,0 @@
-_target_: adk_dl.data.PLMEmbeddingRegressionDataModule
-train_config: ${train_config}
-model_name: "ankh-base"

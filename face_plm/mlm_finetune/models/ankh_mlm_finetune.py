@@ -3,7 +3,7 @@ from torch.optim import AdamW
 import pytorch_lightning as pl
 from peft import LoraConfig, get_peft_model
 from transformers import AutoModelForSeq2SeqLM
-from adk_dl.utils import HyperParameterScheduler
+from face_plm.probes.utils import HyperParameterScheduler
 
 
 def create_lora_model(
