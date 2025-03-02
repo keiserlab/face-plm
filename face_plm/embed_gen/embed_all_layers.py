@@ -4,6 +4,7 @@ import pandas as pd
 import argparse
 from face_plm.embed_gen.ankh_utils import embed_sequences_ankh
 
+
 def main():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--zarr_dir', type=str, required=True)
@@ -34,6 +35,7 @@ def main():
         for seq, seq_embed in zip(sequences, seq_embeds):
             # create zarr array for each sequence
             model_group.create_dataset(name=seq, data=seq_embed, dtype=np.float32)
+
 
 if __name__ == '__main__':
     main()
