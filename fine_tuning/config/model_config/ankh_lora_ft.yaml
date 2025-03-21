@@ -1,4 +1,4 @@
-_target_: adk_dl.fine_tune.models.ankh_finetune.AnkhLoRAFineTune
+_target_: face_plm.mlm_finetune.models.ankh_finetune.AnkhLoRAFineTune
 lr_scheduler: ${lr_config}
 lora_r: 16
 lora_alpha: 32

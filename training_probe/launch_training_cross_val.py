@@ -11,7 +11,7 @@ import tempfile
 import wandb
 
 from face_plm.probes.utils import clean_hydra_config_for_wandb
-from transformers import AutoTokenizer
+
 
 
 def main():
@@ -25,7 +25,6 @@ def main():
     )
     parser.add_argument("--config", type=Path, help="config file name without .yaml extension")
     parser.add_argument("--log_dir", type=Path, help="Directory to save logs")
-    parser.add_argument("--test", action="store_true", help="Run a test run")
     args = parser.parse_args()
     config_path = Path(__file__).parent / "config"
     
@@ -41,22 +40,13 @@ def main():
     model_config = config.model_config
     data_config = config.data_config
 
-    plm_model_name = model_config.encoder.model_name
-    compatible_models = ["ElnaggarLab/ankh-base"]
-    assert plm_model_name in compatible_models, f"Model {plm_model_name} has not been checked for comapatibility"
-    
-    tokenizer = AutoTokenizer.from_pretrained(plm_model_name)
-    tokenizer.add_special_tokens({'cls_token': '[CLS]'}) # Add the cls token to the tokenizer
-    num_tokens = len(tokenizer)
-    model_config.encoder.num_tokens = num_tokens
-    
     for i in range(5):
         # Instantiating the train config with defaults
         train_config = hydra.utils.instantiate(config.train_config)
 
         # Generating DataLoaders
         print("Generating Training and Validation DataSets...")
-        data_module = hydra.utils.instantiate(data_config, split_num=i, tokenizer=tokenizer)
+        data_module = hydra.utils.instantiate(data_config, split_num=i)
         
         # Instantiating Model
         print("Instantiating the model...")
@@ -67,7 +57,7 @@ def main():
         wandb_config = hydra.utils.instantiate(wandb_config)
         
         logger = WandbLogger(project=wandb_config.project,
-                            name=wandb_config.run_name + (f"_fold_{i}" if not args.test else "_test"),
+                            name=wandb_config.run_name + f"_fold_{i}",
                             log_model=True,
                             group=wandb_config.group_name,
                             entity=wandb_config.entity,
@@ -81,6 +71,7 @@ def main():
         else:
             gpu_num = [train_config.gpu_num]
 
+        
         callbacks = [pl.callbacks.ModelCheckpoint(
                         save_last=True,
                         save_top_k=1,
@@ -108,9 +99,7 @@ def main():
         cleaned_config["data"]["fold_num"] = i
         wandb.config.update(cleaned_config, allow_val_change=True)
         wandb.finish()
-        if args.test:
-            break
 
-
+    
 if __name__ == "__main__":
     main()

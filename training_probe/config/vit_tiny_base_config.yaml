@@ -6,49 +6,51 @@ hydra:
     chdir: false
 
 defaults:
-  - data_config: ankh_base_kcat
   - wandb_config: base_wandb
   - _self_
 
 train_config:
   _target_: face_plm.probes.utils.TrainConfig
-  batch_size: 8
-  learning_rate: ${lr_config.base_value}
+  batch_size: 64
+  learning_rate: 1e-3
+  num_workers: 0
+  profiler: simple
+  gpu_num: 0
   max_epoch_number: 1000
   warmup_epochs: 50
-  profiler: simple
-  num_workers: 0
-  gpu_num: 3
 
 lr_config:
   _target_: face_plm.probes.utils.HyperParameterScheduler
   train_config: ${train_config}
-  final_value: 1e-7
-  warmup_initial_value: 1e-6
-  base_value: 1e-5
+  final_value: 1e-8
+  warmup_initial_value: 1e-7
+  base_value: 1e-6
   warmup_epochs: ${train_config.warmup_epochs}
-  
-wandb_config:
-  run_name: lora_ft_ankhbase_dropout70_kcat
+
+encoder_config:
+  _target_: face_plm.probes.models.TransformerClsTokenEncoder
+  num_layers: 12
+  num_heads: 3
+  input_dim: 1280
+  dim_feedforward: 768
 
 taskhead_config:
   _target_: face_plm.probes.models.RegressionHead
-  input_dim: 768
+  input_dim: ${encoder_config.input_dim}
 
 loss_config:
   _target_: torch.nn.MSELoss
 
-encoder_config:
-  _target_: face_plm.probes.models.LoRAFinetunePLMEncoder
-  model_name: ElnaggarLab/ankh-base
-  num_tokens: None
-  lora_dropout: 0.70
+wandb_config:
+  run_name: ESM3_sm_open_v1-vit_tiny_64
 
 model_config:
   _target_: face_plm.probes.models.LightningModel
-  optimizer:  "Adam"
+  optimizer: "Adam"
   wd: 0.00
   lr_scheduler: ${lr_config}
   encoder: ${encoder_config}
   task_head: ${taskhead_config}
   loss_func: ${loss_config}
+
+  

@@ -1,0 +1,29 @@
+# Configuration for Hydra
+hydra:
+  run:
+    dir: /tmp/hydra
+  job:
+    chdir: false
+
+defaults:
+  - plm_mlp_base_config
+  - wandb_config: base_wandb
+  - _self_
+
+data_config: 
+  _target_: face_plm.probes.data.PLMEmbeddingRegressionDataModule
+  train_config: ${train_config}
+  model_name: "ankh-base"
+  aggregation: "min"
+  
+train_config:
+  gpu_num: 3
+
+encoder_config:
+  input_dim: 768
+
+wandb_config:
+  run_name: ankh_base_mlp
+
+
+  
