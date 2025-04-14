@@ -1,3 +1,4 @@
-wandb_config:
-  run_name: base_run_name
-  entity: temp_entitiy  # CHANGEME
+_target_: face_plm.probes.utils.WandbRunConfig
+run_name: new_uv_test
+entity: pinney-lab  # CHANGEME
+project: face_plm  # CHANGEME
