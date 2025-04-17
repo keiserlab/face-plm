@@ -16,11 +16,12 @@ file_path = Path(__file__).resolve()
 # Getting the parent directory of this file
 parent_dir = file_path.parent
 # defining the data directory
-data_dir = str(parent_dir) + "/../../data/"
+data_dir = str(parent_dir) + "/../../../data/"
 
 SEQUENCE_DATA_DF_PATH = f"{data_dir}adk_evo-scale_dataset.csv"
-EMBEDDING_ZARR_PATH = f"{data_dir}adk_plm_embeddings.zarr"
 SPLIT_INFO_JSON = f"{data_dir}adk_5fold_cross_val_orgs.json"
+
+EMBEDDING_ZARR_PATH = f"{data_dir}adk_plm_embeddings.zarr"
 ANKH_FULL_LAYER_ZARR_PATH = f"{data_dir}ankh_full_layers.zarr"
 
 

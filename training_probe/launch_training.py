@@ -10,6 +10,8 @@ import hydra
 import tempfile
 import wandb
 
+from face_plm.probes.utils import clean_hydra_config_for_wandb
+
 
 def main():
     # Seeding everything to ensure reproducibility
@@ -66,11 +68,12 @@ def main():
     else:
         gpu_num = [train_config.gpu_num]
 
-    callbacks = [pl.callbacks.EarlyStopping(monitor='val_loss',
-                                        patience=train_config.patience,
-                                        verbose=False,
-                                        mode='min')
-                ]
+    callbacks = [pl.callbacks.ModelCheckpoint(
+                        save_last=True,
+                        save_top_k=1,
+                        monitor="val_loss",
+                        mode="min",)
+                    ]
 
     assert torch.cuda.is_available(), "CUDA is not available and is required for training"
 
@@ -86,8 +89,10 @@ def main():
     # Training the model
     print("Training Model...")
     trainer.fit(model, datamodule=data_module)
-    wandb.config.update(dict(config))
-
+    cleaned_config = clean_hydra_config_for_wandb(config)
+    cleaned_config["hydra_config"] = str(args.config)
+    wandb.config.update(cleaned_config, allow_val_change=True)
+    wandb.finish()
 
 if __name__ == "__main__":
     main()
