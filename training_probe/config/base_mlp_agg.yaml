@@ -1,0 +1,44 @@
+# Configuration for Hydra
+hydra:
+  run:
+    dir: /tmp/hydra
+  job:
+    chdir: false
+
+defaults:
+  - wandb_config: base_wandb
+  - train_config: base_train
+  - _self_
+
+encoder_config:
+  _target_: face_plm.probes.models.FeedForwardEncoder
+  hidden_dim: 768
+  hidden_layers: 2
+  input_dim: 1280
+
+taskhead_config:
+  _target_: face_plm.probes.models.RegressionHead
+  input_dim: ${encoder_config.hidden_dim}
+
+loss_config:
+  _target_: torch.nn.MSELoss
+
+lr_config:
+  _target_: face_plm.probes.utils.HyperParameterScheduler
+  train_config: ${train_config}
+  final_value: 1e-8
+  warmup_initial_value: 1e-7
+  base_value: 1e-6
+  warmup_epochs: ${train_config.warmup_epochs}
+
+
+model_config:
+  _target_: face_plm.probes.models.LightningModel
+  optimizer: "Adam"
+  wd: 0.00
+  lr_scheduler: ${lr_config}
+  encoder: ${encoder_config}
+  task_head: ${taskhead_config}
+  loss_func: ${loss_config}
+
+  

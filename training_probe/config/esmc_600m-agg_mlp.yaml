@@ -6,8 +6,7 @@ hydra:
     chdir: false
 
 defaults:
-  - plm_mlp_base_config
-  - wandb_config: base_wandb
+  - base_mlp_agg
   - _self_
 
 data_config: 
@@ -18,12 +17,14 @@ data_config:
   
 train_config:
   gpu_num: 1
+  max_epoch_number: 10
+  warmup_epochs: 1
 
 encoder_config:
   input_dim: 1152
 
 wandb_config:
-  run_name: esmc_600m_mlp
+  run_name: new_config_test
 
 
   
