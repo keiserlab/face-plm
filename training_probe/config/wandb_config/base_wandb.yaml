@@ -1,4 +1,4 @@
 _target_: face_plm.probes.utils.WandbRunConfig
-run_name: new_uv_test
-entity: pinney-lab  # CHANGEME
-project: face_plm  # CHANGEME
+run_name: base_run+name
+entity: temp_entity  # CHANGEME
+project:   # CHANGEME
