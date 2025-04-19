@@ -32,6 +32,8 @@ Homebrew:
 
     uv pip install . --python .venv
 
+    source .venv/bin/activate
+
 # Getting Started
 
 # Generating the PLM Embeddings
