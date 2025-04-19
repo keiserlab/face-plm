@@ -26,3 +26,5 @@ Homebrew:
     uv sync
 
     uv pip install . --python .venv
+
+    source .venv/bin/activate
