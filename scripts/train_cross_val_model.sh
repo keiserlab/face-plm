@@ -2,5 +2,5 @@
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 CONFIG_NAME=$1
 
-uv run $SCRIPT_DIR/../training_probe/launch_training.py \
+uv run $SCRIPT_DIR/../training_probe/launch_training_cross_val.py \
     --config $CONFIG_NAME 

@@ -1,4 +1,7 @@
 _target_: face_plm.probes.utils.WandbRunConfig
-run_name: base_run+name
-entity: temp_entity  # CHANGEME
-project:   # CHANGEME
+# run_name: base_run+name
+# entity: temp_entity  # CHANGEME
+# project:   # CHANGEME
+run_name: test_cross_val
+entity: pinney-lab  # CHANGEME
+project: face_plm  # CHANGEME
