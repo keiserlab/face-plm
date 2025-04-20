@@ -34,9 +34,70 @@ Homebrew:
 
 # Getting Started
 
+In order to get started with generating embeddings and training models you need to sign into HuggingFace and WandB.
+
+```bash
+huggingface-cli login
+```
+```bash
+wandb login
+```
+
+Additionally, you need to change the wandb config file at: training_probe/config/wandb_config/base_wandb.yaml
+The entity and project need to be updated to properly log to the desired WandB location.
+
+```bash
+_target_: face_plm.probes.utils.WandbRunConfig
+run_name: base_run+name
+entity: temp_entity  # CHANGEME
+project: temp_project  # CHANGEME
+```
+
 # Generating the PLM Embeddings
+### Generating final layer embeddings for all PLMs
+```bash
 
-# Model Training
+```
+### Generating all layer embeddings for all Ankh-base
+```bash
 
-# Model Evaluation
+```
+
+# Training Probes
+### Training a single model (single probe type, single aggeregation type, final layer)
+```bash
+
+```
+### Training multiple models for cross-validation (single probe type, single aggregation, final layer)
+```bash
+
+```
+### Training models on multiple layers (single probe type, single aggregation, all layers)
+```bash
+
+```
+### Training models for all aggregation (single probe type, all aggregations)
+```bash
+
+```
+
+# Masked Language Model Fine-tuning
+### EC 2.7.* Dataset Fine-tuning
+```bash
+
+```
+### ADK Dataset Fine-tuning
+```bash
+
+```
+
+# Direct Regression Fine-tuning
+```bash
+
+```
+
+# No Torch Linear and Non-linear Probing
+```bash
+
+```
 
