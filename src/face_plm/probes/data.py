@@ -16,6 +16,7 @@ file_path = Path(__file__).resolve()
 # Getting the parent directory of this file
 parent_dir = file_path.parent
 # defining the data directory
+
 data_dir = str(parent_dir) + "/../../../data/"
 
 SEQUENCE_DATA_DF_PATH = f"{data_dir}adk_evo-scale_dataset.csv"
@@ -76,6 +77,7 @@ class PLMEmbeddingRegressionDataset(Dataset):
         """
         assert aggregation in [None, "mean", "max", "min"]
         assert train_test in ["train", "test"]
+    
         with open(SPLIT_INFO_JSON) as f:
             split_info = json.load(f)
         split = str(split_num)
