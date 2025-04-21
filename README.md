@@ -30,7 +30,7 @@ Homebrew:
 
     uv sync
 
-    uv pip install . --python .venv
+    uv pip install -e . --python .venv
 
     source .venv/bin/activate
 
@@ -56,32 +56,46 @@ project: temp_project  # CHANGEME
 ```
 
 # Generating the PLM Embeddings
-### Generating final layer embeddings for all PLMs
-```bash
 
+### Setup embedding generation env
+```bash
+bash scripts/setup_embed_env.sh
 ```
+
+### Generating final layer embeddings for all PLMs
+With ESM (requires ESMC/3 access)
+```bash
+bash scripts/get_all_plm_embedding.sh
+```
+Without ESM
+```bash
+bash scripts/get_all_plm_embedding_no_esm.sh
+```
+
 ### Generating all layer embeddings for all Ankh-base
 ```bash
-
+bash scripts/get_all_layer_ankh_embedding.sh
 ```
 
 # Training Probes
 ### Training a single model (single probe type, single aggeregation type, final layer)
 ```bash
-
+bash scripts/train_single_model.sh CONFIG_NAME
 ```
+Example config: esmc_600m-agg_mlp
+
 ### Training multiple models for cross-validation (single probe type, single aggregation, final layer)
 ```bash
-
+bash scripts/train_cross_val_model.sh CONFIG_NAME
 ```
+Example config: esmc_600m-agg_mlp
+
 ### Training models on multiple layers (single probe type, single aggregation, all layers)
 ```bash
-
+bash scripts/train_cross_val_model_ankh_multilayer.sh CONFIG_NAME
 ```
-### Training models for all aggregation (single probe type, all aggregations)
-```bash
+Example config: ankh_base_layer_specific_0-12
 
-```
 
 # Masked Language Model Fine-tuning
 ### EC 2.7.* Dataset Fine-tuning

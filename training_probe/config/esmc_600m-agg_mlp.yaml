@@ -13,7 +13,7 @@ data_config:
   _target_: face_plm.probes.data.PLMEmbeddingRegressionDataModule
   train_config: ${train_config}
   model_name: "esmc_600m"
-  aggregation: "max"
+  aggregation: "min"
   
 train_config:
   gpu_num: 1
