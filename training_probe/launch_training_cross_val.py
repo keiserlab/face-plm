@@ -86,7 +86,7 @@ def main():
                             logger=logger,
                             enable_checkpointing=True,
                             profiler="simple",
-                            callbacks=callbacks,
+                            #callbacks=callbacks,
                             max_epochs=train_config.max_epoch_number,
                             log_every_n_steps=train_config.log_steps,
                             precision=32)
