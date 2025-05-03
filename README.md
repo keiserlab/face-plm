@@ -100,7 +100,7 @@ Example config: ankh_base_layer_specific_0-12
 
 # Direct Regression Fine-tuning
 ```bash
-bash scripts/train_cross_val_direct_finetune.sh
+bash scripts/train_cross_val_direct_finetune.sh CONFIG_NAME
 ```
 Example config: ankh_base_ft_kcat
 
