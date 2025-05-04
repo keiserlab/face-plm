@@ -4,35 +4,26 @@
 <img width="350" alt="image" src="https://github.com/user-attachments/assets/1493dc74-8eed-49b2-8792-d79dc870d008" />
 
 
-[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Installation
 
-### Install uv
-
-Curl:
-
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-
-Homebrew:
-
-    brew install uv
-
 ### Clone the repository
 
     git clone git@github.com:keiserlab/face-plm.git
 
-### Navigate to the repository, create virtual environment
+### Navigate to the repository, create virtual conda environment  
 
     cd face-plm
 
-    uv sync
+    conda create -n face_plm python=3.10 -y
 
-    uv pip install . --python .venv
+    conda activate face_plm
 
-    source .venv/bin/activate
+    pip install -e . 
+
+    pip install pytorch-lightning
 
 # Getting Started
 
@@ -56,32 +47,46 @@ project: temp_project  # CHANGEME
 ```
 
 # Generating the PLM Embeddings
-### Generating final layer embeddings for all PLMs
-```bash
 
+### Setup embedding generation env
+```bash
+bash scripts/setup_embed_env.sh
 ```
+
+### Generating final layer embeddings for all PLMs
+With ESM (requires ESMC/3 access)
+```bash
+bash scripts/get_all_plm_embedding.sh
+```
+Without ESM
+```bash
+bash scripts/get_all_plm_embedding_no_esm.sh
+```
+
 ### Generating all layer embeddings for all Ankh-base
 ```bash
-
+bash scripts/get_all_layer_ankh_embedding.sh
 ```
 
 # Training Probes
 ### Training a single model (single probe type, single aggeregation type, final layer)
 ```bash
-
+bash scripts/train_single_model.sh CONFIG_NAME
 ```
+Example config: esmc_600m-agg_mlp
+
 ### Training multiple models for cross-validation (single probe type, single aggregation, final layer)
 ```bash
-
+bash scripts/train_cross_val_model.sh CONFIG_NAME
 ```
+Example config: esmc_600m-agg_mlp
+
 ### Training models on multiple layers (single probe type, single aggregation, all layers)
 ```bash
-
+bash scripts/train_cross_val_model_ankh_multilayer.sh CONFIG_NAME
 ```
-### Training models for all aggregation (single probe type, all aggregations)
-```bash
+Example config: ankh_base_layer_specific_0-12
 
-```
 
 # Masked Language Model Fine-tuning
 ### EC 2.7.* Dataset Fine-tuning
@@ -95,8 +100,9 @@ project: temp_project  # CHANGEME
 
 # Direct Regression Fine-tuning
 ```bash
-
+bash scripts/train_cross_val_direct_finetune.sh CONFIG_NAME
 ```
+Example config: ankh_base_ft_kcat
 
 # No Torch Linear and Non-linear Probing
 ```bash
