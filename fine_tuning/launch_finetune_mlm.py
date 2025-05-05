@@ -20,7 +20,7 @@ def main():
         description=desc, formatter_class=ArgumentDefaultsHelpFormatter
     )
     parser.add_argument("--config", type=Path, help="config file name without .yaml extension")
-    parser.add_argument("--log_dir", type=Path, help="Directory to save logs")
+    parser.add_argument("--log_dir", default='.', type=Path, help="Directory to save logs")
     args = parser.parse_args()
     config_path = Path(__file__).parent / "config"
     
@@ -47,7 +47,9 @@ def main():
     model = hydra.utils.instantiate(model_config)
 
     # Initializing Wandb Logger
+    print("Instantiating WandB...")
     wandb_config = hydra.utils.instantiate(wandb_config)
+    wandb_config = wandb_config.wandb_config
     
     log_dir = tempfile.mkdtemp(dir=args.log_dir)
     logger = WandbLogger(project=wandb_config.project,

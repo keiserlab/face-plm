@@ -4,7 +4,7 @@
 <img width="350" alt="image" src="https://github.com/user-attachments/assets/1493dc74-8eed-49b2-8792-d79dc870d008" />
 
 
-[![](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/downloads/)
+[![](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Installation
@@ -91,11 +91,11 @@ Example config: ankh_base_layer_specific_0-12
 # Masked Language Model Fine-tuning
 ### EC 2.7.* Dataset Fine-tuning
 ```bash
-
+bash scripts/finetune_mlm.sh ankh_large_ft_ec27
 ```
 ### ADK Dataset Fine-tuning
 ```bash
-
+bash scripts/finetune_mlm.sh ankh_base_ft_kcat
 ```
 
 # Direct Regression Fine-tuning
@@ -106,6 +106,7 @@ Example config: ankh_base_ft_kcat
 
 # No Torch Linear and Non-linear Probing
 ```bash
-
+bash no_torch_probing.sh OUTPUT_DIR
 ```
+example output_dir: ./probe_outputs/
 

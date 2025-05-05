@@ -18,7 +18,7 @@ train_config:
   max_epoch_number: 1
   warmup_epochs: 1
   profiler: simple
-  gpu_num: 3
+  gpu_num: 0
 
 lr_config:
   _target_: face_plm.probes.utils.HyperParameterScheduler
@@ -27,6 +27,3 @@ lr_config:
   final_value: 1e-6
   warmup_initial_value: 1e-6
   warmup_epochs: ${train_config.warmup_epochs}
-  
-wandb_config:
-  run_name: lora_ft_ankhlarge_ec27
