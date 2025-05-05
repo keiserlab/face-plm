@@ -91,11 +91,11 @@ Example config: ankh_base_layer_specific_0-12
 # Masked Language Model Fine-tuning
 ### EC 2.7.* Dataset Fine-tuning
 ```bash
-
+bash scripts/finetune_mlm.sh ankh_large_ft_ec27
 ```
 ### ADK Dataset Fine-tuning
 ```bash
-
+bash scripts/finetune_mlm.sh ankh_base_ft_kcat
 ```
 
 # Direct Regression Fine-tuning
@@ -106,6 +106,7 @@ Example config: ankh_base_ft_kcat
 
 # No Torch Linear and Non-linear Probing
 ```bash
-
+bash no_torch_probing.sh OUTPUT_DIR
 ```
+example output_dir: ./probe_outputs/
 
