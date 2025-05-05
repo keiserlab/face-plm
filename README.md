@@ -4,7 +4,7 @@
 <img width="350" alt="image" src="https://github.com/user-attachments/assets/1493dc74-8eed-49b2-8792-d79dc870d008" />
 
 
-[![](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/downloads/)
+[![](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Installation
